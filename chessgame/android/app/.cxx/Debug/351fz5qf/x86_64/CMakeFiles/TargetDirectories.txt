@@ -1,0 +1,2 @@
+C:/dev/flutter_nhom5/chessgame/android/app/.cxx/Debug/351fz5qf/x86_64/CMakeFiles/edit_cache.dir
+C:/dev/flutter_nhom5/chessgame/android/app/.cxx/Debug/351fz5qf/x86_64/CMakeFiles/rebuild_cache.dir
