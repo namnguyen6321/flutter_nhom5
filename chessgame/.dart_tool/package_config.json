@@ -51,9 +51,9 @@
     },
     {
       "name": "flutter_lints",
-      "rootUri": "file:///C:/Users/Admin/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_lints-5.0.0",
+      "rootUri": "file:///C:/Users/Admin/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_lints-4.0.0",
       "packageUri": "lib/",
-      "languageVersion": "3.5"
+      "languageVersion": "3.1"
     },
     {
       "name": "flutter_test",
@@ -81,9 +81,9 @@
     },
     {
       "name": "lints",
-      "rootUri": "file:///C:/Users/Admin/AppData/Local/Pub/Cache/hosted/pub.dev/lints-5.1.1",
+      "rootUri": "file:///C:/Users/Admin/AppData/Local/Pub/Cache/hosted/pub.dev/lints-4.0.0",
       "packageUri": "lib/",
-      "languageVersion": "3.6"
+      "languageVersion": "3.1"
     },
     {
       "name": "matcher",
@@ -164,13 +164,13 @@
       "languageVersion": "3.3"
     },
     {
-      "name": "chessgame",
+      "name": "my_app",
       "rootUri": "../",
       "packageUri": "lib/",
-      "languageVersion": "3.7"
+      "languageVersion": "3.5"
     }
   ],
-  "generated": "2025-04-19T02:17:35.876301Z",
+  "generated": "2025-03-21T12:18:52.257447Z",
   "generator": "pub",
   "generatorVersion": "3.7.2",
   "flutterRoot": "file:///C:/dev/tools/flutter",
