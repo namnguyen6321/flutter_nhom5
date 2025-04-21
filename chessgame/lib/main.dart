@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'screens/home_screen.dart';
+import 'widget/game_board.dart';
 
 void main() {
   runApp(ChessGameApp());
@@ -11,7 +12,11 @@ class ChessGameApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Chess Game',
       theme: ThemeData(primarySwatch: Colors.blueGrey),
-      home: HomeScreen(),
+      home: Scaffold(
+        body: Center(
+          child: Gameboard(),
+        ),
+      ),
       debugShowCheckedModeBanner: false,
     );
   }
