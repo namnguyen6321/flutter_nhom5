@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="973e6cfb-9f91-42b5-aafb-cd69b86437f1" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/chessgame/.dart_tool/dartpad/web_plugin_registrant.dart" beforeDir="false" afterPath="$PROJECT_DIR$/chessgame/.dart_tool/dartpad/web_plugin_registrant.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chessgame/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/chessgame/.dart_tool/package_config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chessgame/.dart_tool/package_config_subset" beforeDir="false" afterPath="$PROJECT_DIR$/chessgame/.dart_tool/package_config_subset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/arm64-v8a/.cmake/api/v1/reply/index-2025-04-19T03-04-57-0874.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/arm64-v8a/android_gradle_build.json" beforeDir="false" afterPath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/arm64-v8a/android_gradle_build.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/arm64-v8a/android_gradle_build_mini.json" beforeDir="false" afterPath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/arm64-v8a/android_gradle_build_mini.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/arm64-v8a/configure_fingerprint.bin" beforeDir="false" afterPath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/arm64-v8a/configure_fingerprint.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/arm64-v8a/metadata_generation_command.txt" beforeDir="false" afterPath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/arm64-v8a/metadata_generation_command.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/arm64-v8a/prefab_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/arm64-v8a/prefab_config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/armeabi-v7a/.cmake/api/v1/reply/index-2025-04-19T03-05-03-0153.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/armeabi-v7a/android_gradle_build.json" beforeDir="false" afterPath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/armeabi-v7a/android_gradle_build.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/armeabi-v7a/android_gradle_build_mini.json" beforeDir="false" afterPath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/armeabi-v7a/android_gradle_build_mini.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/armeabi-v7a/configure_fingerprint.bin" beforeDir="false" afterPath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/armeabi-v7a/configure_fingerprint.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/armeabi-v7a/metadata_generation_command.txt" beforeDir="false" afterPath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/armeabi-v7a/metadata_generation_command.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/armeabi-v7a/prefab_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/armeabi-v7a/prefab_config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/hash_key.txt" beforeDir="false" afterPath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/hash_key.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/x86/.cmake/api/v1/reply/index-2025-04-19T03-05-07-0502.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/x86/android_gradle_build.json" beforeDir="false" afterPath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/x86/android_gradle_build.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/x86/android_gradle_build_mini.json" beforeDir="false" afterPath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/x86/android_gradle_build_mini.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/x86/configure_fingerprint.bin" beforeDir="false" afterPath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/x86/configure_fingerprint.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/x86/metadata_generation_command.txt" beforeDir="false" afterPath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/x86/metadata_generation_command.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/x86/prefab_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/x86/prefab_config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/x86_64/.cmake/api/v1/reply/index-2025-04-19T03-05-10-0784.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/x86_64/android_gradle_build.json" beforeDir="false" afterPath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/x86_64/android_gradle_build.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/x86_64/android_gradle_build_mini.json" beforeDir="false" afterPath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/x86_64/android_gradle_build_mini.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/x86_64/configure_fingerprint.bin" beforeDir="false" afterPath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/x86_64/configure_fingerprint.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/x86_64/metadata_generation_command.txt" beforeDir="false" afterPath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/x86_64/metadata_generation_command.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/x86_64/prefab_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/chessgame/android/app/.cxx/Debug/351fz5qf/x86_64/prefab_config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chessgame/android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java" beforeDir="false" afterPath="$PROJECT_DIR$/chessgame/android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chessgame/ios/Runner/GeneratedPluginRegistrant.h" beforeDir="false" afterPath="$PROJECT_DIR$/chessgame/ios/Runner/GeneratedPluginRegistrant.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chessgame/ios/Runner/GeneratedPluginRegistrant.m" beforeDir="false" afterPath="$PROJECT_DIR$/chessgame/ios/Runner/GeneratedPluginRegistrant.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chessgame/lib/screens/play_ai_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/chessgame/lib/screens/play_ai_screen.dart" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="2vvng4rhGFZuf7hkpK5uCKYbxek" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;DinhNam&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/dev/hocflutter&quot;
+  }
+}</component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="973e6cfb-9f91-42b5-aafb-cd69b86437f1" name="Changes" comment="" />
+      <created>1745034522986</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1745034522986</updated>
+    </task>
+    <servers />
+  </component>
+</project>

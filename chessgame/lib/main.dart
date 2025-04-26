@@ -12,11 +12,10 @@ class ChessGameApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Chess Game',
       theme: ThemeData(primarySwatch: Colors.blueGrey),
-      home: Scaffold(
-        body: Center(
-          child: Gameboard(),
-        ),
-      ),
+      home: HomeScreen(),
+      routes: {
+        // '/game': (context) => GameBoard(),
+      },
       debugShowCheckedModeBanner: false,
     );
   }

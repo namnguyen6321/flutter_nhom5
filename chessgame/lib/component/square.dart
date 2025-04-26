@@ -19,7 +19,7 @@ class Square extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color? squareColor;
-    //Nếu được chọn, bàn cờ chuyển màu xanh
+    // Nếu được chọn, bàn cờ chuyển màu xanh
     if (isSelected) {
       squareColor = Colors.green;
     } else if (isValidMove) {
@@ -27,7 +27,7 @@ class Square extends StatelessWidget {
     } else {
       squareColor = isWhite ? Colors.grey[400] : Colors.grey[600];
     }
-    //Nếu không nó sẽ là màu mặc định trắng hoặc xanh
+    // Nếu không nó sẽ là màu mặc định trắng hoặc xám
 
     return GestureDetector(
       onTap: onTap,
@@ -37,11 +37,12 @@ class Square extends StatelessWidget {
             ? Image.asset(
                 piece!.imagePath,
                 color: piece!.isWhite
-                    ? Color.fromRGBO(224, 255, 255, 1)
-                    : Color.fromRGBO(54, 69, 79, 1),
+                    ? const Color.fromRGBO(224, 255, 255, 1)
+                    : const Color.fromRGBO(54, 69, 79, 1),
               )
             : null,
       ),
     );
   }
 }
+
