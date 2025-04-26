@@ -14,8 +14,8 @@ class Square extends StatelessWidget {
           ? Image.asset(
               piece!.imagePath,
               color: piece!.isWhite
-                  ? Color.fromRGBO(224, 255, 255, 1)
-                  : Color.fromRGBO(54, 69, 79, 1),
+                  ? const Color.fromRGBO(224, 255, 255, 1)
+                  : const Color.fromRGBO(54, 69, 79, 1),
             )
           : null,
     );
