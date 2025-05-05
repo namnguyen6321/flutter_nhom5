@@ -6,7 +6,7 @@ import 'package:my_app/screens/play_friend_screen.dart';
 import 'package:my_app/screens/profile_screen.dart';
 import 'package:my_app/screens/settings_creen.dart';
 import 'screens/home_screen.dart';
-import 'widget/game_board.dart';
+import 'package:my_app/widget/game_board.dart';
 
 void main() {
   runApp(ChessGameApp());
@@ -25,10 +25,9 @@ class ChessGameApp extends StatelessWidget {
         '/settings': (context) => SettingsScreen(),
         '/about': (context) => AboutScreen(),
         '/learn': (context) => LearnScreen(),
-        'home': (context) => HomeScreen(),
-        'profile': (context) => ProfileScreen(),
-        
-        // '/game': (context) => GameBoard(),
+        '/home': (context) => HomeScreen(),
+        '/profile': (context) => ProfileScreen(),
+        '/game': (context) => Gameboard(),
       },
       debugShowCheckedModeBanner: false,
     );

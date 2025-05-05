@@ -9,88 +9,68 @@ class HomeContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 20),
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            _buildMenuItem(
+              context,
+              title: 'Play with AI',
+              color: Colors.deepPurple,
+              onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const PlayAIScreen()),
-              );
-            },
-            child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-           SizedBox(width: 10),
-          Container(
-            color: Colors.deepPurple,
-            width: 200,
-            height: 200,  
-          ),
-          const SizedBox(width: 10),
-          Padding(
-            padding:  EdgeInsets.only(top: 10),
-            child: Text('Play with AI', style: TextStyle(fontSize: 20,color: Colors.black)),
-          ),
-        ],
-      ),
-          ),
-          const SizedBox(height: 20),
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
+              ),
+            ),
+            const SizedBox(height: 20),
+            _buildMenuItem(
+              context,
+              title: 'Play with Friend',
+              color: Colors.deepPurple[400]!,
+              onTap: () => Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const PlayFriendScreen()),
-              );
-            },
-            child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-           SizedBox(width: 10),
-          Container(
-            color: Colors.deepPurple[400],
-             width: 200,
-            height: 200,
-          ),
-           SizedBox(width: 10),
-          Padding(
-            padding:  EdgeInsets.only(top: 10),
-            child: Text('Play with Friend', style: TextStyle(fontSize: 20,color: Colors.black)),
-          ),
-        ],
-      ),
-          ),
-          const SizedBox(height: 20),
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
+                MaterialPageRoute(
+                    builder: (context) => const PlayFriendScreen()),
+              ),
+            ),
+            const SizedBox(height: 20),
+            _buildMenuItem(
+              context,
+              title: 'Learn Chess',
+              color: Colors.deepPurple[200]!,
+              onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const LearnScreen()),
-              );
-            },
-            child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-           SizedBox(width: 10),
-          Container(
-            color: Colors.deepPurple[400],
-             width: 200,
-            height: 200,
-          ),
-           SizedBox(width: 10),
-          Padding(
-            padding:  EdgeInsets.only(top: 10),
-            child: Text('Play with Friend', style: TextStyle(fontSize: 20,color: Colors.black)),
-          ),
-        ],
-      ),
-          ),
-          const SizedBox(height: 20),
-        ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
+  Widget _buildMenuItem(BuildContext context,
+      {required String title,
+      required Color color,
+      required VoidCallback onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Row(
+        children: [
+          Container(
+            color: color,
+            width: 120,
+            height: 120,
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Text(
+              title,
+              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }

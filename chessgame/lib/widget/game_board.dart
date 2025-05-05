@@ -127,6 +127,11 @@ class _GameboardState extends State<Gameboard> {
         selectedRow = row;
         selectedCol = col;
       }
+      //Nếu người chơi chọn quân cờ và chạm vào ô vuông có nước đi hợp lệ di chuyển quân cơ
+      else if (selectedPiece != null &&
+          validMoves.any((element) => element[0] == row && element[1] == col)) {
+        movePiece(row, col);
+      }
       //Nếu quân cờ được chọn, tính toán nước đi hợp lệ
       validMoves =
           calculateRawValidMoves(selectedRow, selectedCol, selectedPiece);
@@ -136,6 +141,9 @@ class _GameboardState extends State<Gameboard> {
   // Tính toán nước đi hợp lệ
   List<List<int>> calculateRawValidMoves(int row, int col, ChessPiece? piece) {
     List<List<int>> candidateMoves = [];
+    if (piece == null) {
+      return [];
+    }
     //Mỗi hướng đi sẽ phụ thuộc màu sắc của nó
     int direction = piece!.isWhite ? -1 : 1;
     switch (piece.type) {
@@ -161,7 +169,7 @@ class _GameboardState extends State<Gameboard> {
         if (isInBoard(row + direction, col + 1) &&
             board[row + direction][col + 1] != null &&
             board[row + direction][col + 1]!.isWhite) {
-          candidateMoves.add([row + direction, col - 1]);
+          candidateMoves.add([row + direction, col + 1]);
         }
         break;
       case ChessPieceType.rook:
@@ -308,7 +316,20 @@ class _GameboardState extends State<Gameboard> {
     return candidateMoves;
   }
 
-  @override
+//Di chuyển quân cờ
+  void movePiece(int newRow, int newCol) {
+    //Di chuyển quân cờ và xoá chỗ cũ
+    board[newRow][newCol] = selectedPiece;
+    board[selectedRow][selectedCol] = null;
+    //Xoá vùng được chọn
+    setState(() {
+      selectedPiece = null;
+      selectedRow = -1;
+      selectedCol = -1;
+      validMoves = [];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
