@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/widget/game_board.dart';
 
 class PlayFriendScreen extends StatelessWidget {
   const PlayFriendScreen({super.key});
@@ -7,9 +8,7 @@ class PlayFriendScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Play with Friend')),
-      body: const Center(
-        child: Text('Chơi với bạn bè - bàn cờ sẽ hiển thị ở đây'),
-      ),
+      body: const Gameboard(),
     );
   }
 }
