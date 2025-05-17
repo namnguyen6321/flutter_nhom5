@@ -348,12 +348,41 @@ class _GameboardState extends State<Gameboard> {
     } else {
       realValidMoves = candidateMoves;
     }
+
+    // NHẬP THÀNH (Castling)
+
+    if (piece != null && piece.type == ChessPieceType.king && checkSimulation) {
+      bool isWhite = piece.isWhite;
+      int baseRow = isWhite ? 7 : 0;
+
+      // 1. Kiểm tra nhập thành vua (king-side)
+      if (board[baseRow][5] == null &&
+          board[baseRow][6] == null &&
+          board[baseRow][7]?.type == ChessPieceType.rook &&
+          board[baseRow][7]?.isWhite == isWhite &&
+          simulatedMoveIsSafe(piece, row, col, baseRow, 5) &&
+          simulatedMoveIsSafe(piece, row, col, baseRow, 6)) {
+        realValidMoves.add([baseRow, 6]); // G1 hoặc G8
+      }
+
+      // 2. Kiểm tra nhập thành hậu (queen-side)
+      if (board[baseRow][1] == null &&
+          board[baseRow][2] == null &&
+          board[baseRow][3] == null &&
+          board[baseRow][0]?.type == ChessPieceType.rook &&
+          board[baseRow][0]?.isWhite == isWhite &&
+          simulatedMoveIsSafe(piece, row, col, baseRow, 3) &&
+          simulatedMoveIsSafe(piece, row, col, baseRow, 2)) {
+        realValidMoves.add([baseRow, 2]); // C1 hoặc C8
+      }
+    }
+
     return realValidMoves;
   }
 
 //Di chuyển quân cờ
   void movePiece(int newRow, int newCol) {
-    // Nếu có quân địch ở đó thì ăn
+    // Ăn quân nếu có
     if (board[newRow][newCol] != null) {
       var capturedPiece = board[newRow][newCol];
       if (capturedPiece!.isWhite) {
@@ -367,7 +396,7 @@ class _GameboardState extends State<Gameboard> {
     board[newRow][newCol] = selectedPiece;
     board[selectedRow][selectedCol] = null;
 
-    // Cập nhật vị trí vua nếu là vua đang di chuyển
+    // Cập nhật vị trí vua nếu cần
     if (selectedPiece!.type == ChessPieceType.king) {
       if (selectedPiece!.isWhite) {
         whiteKingPosition = [newRow, newCol];
@@ -375,42 +404,172 @@ class _GameboardState extends State<Gameboard> {
         blackKingPosition = [newRow, newCol];
       }
     }
+    // Kiểm tra nhập thành (castling) đơn giản
+    if (selectedPiece!.type == ChessPieceType.king &&
+        (newCol - selectedCol).abs() == 2) {
+      // Trắng nhập thành
+      if (selectedPiece!.isWhite && selectedRow == 7) {
+        // Nhập thành bên vua
+        if (newCol == 6 && board[7][7]?.type == ChessPieceType.rook) {
+          board[7][5] = board[7][7]; // Di chuyển xe
+          board[7][7] = null;
+        }
+        // Nhập thành bên hậu
+        else if (newCol == 2 && board[7][0]?.type == ChessPieceType.rook) {
+          board[7][3] = board[7][0];
+          board[7][0] = null;
+        }
+      }
+
+      // Đen nhập thành
+      if (!selectedPiece!.isWhite && selectedRow == 0) {
+        if (newCol == 6 && board[0][7]?.type == ChessPieceType.rook) {
+          board[0][5] = board[0][7];
+          board[0][7] = null;
+        } else if (newCol == 2 && board[0][0]?.type == ChessPieceType.rook) {
+          board[0][3] = board[0][0];
+          board[0][0] = null;
+        }
+      }
+    }
+    // Phong cấp quân tốt nếu đến cuối bàn
+    if (selectedPiece!.type == ChessPieceType.pawn) {
+      if ((selectedPiece!.isWhite && newRow == 0) ||
+          (!selectedPiece!.isWhite && newRow == 7)) {
+        // Hiện dialog chọn phong cấp
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) {
+              return AlertDialog(
+                title: const Text('Pawn Promotion'),
+                content: const Text('Choose piece to promote to:'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      promotePawn(newRow, newCol, ChessPieceType.queen);
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Hậu'),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      promotePawn(newRow, newCol, ChessPieceType.rook);
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Xe'),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      promotePawn(newRow, newCol, ChessPieceType.bishop);
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Tượng'),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      promotePawn(newRow, newCol, ChessPieceType.knight);
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Mã'),
+                  ),
+                ],
+              );
+            },
+          );
+        });
+      }
+    }
 
     // Kiểm tra chiếu
-    if (isKingInCheck(!isWhiteTurn)) {
-      checkStatus = true;
-    } else {
-      checkStatus = false;
+    checkStatus = isKingInCheck(!isWhiteTurn);
+
+    // Kiểm tra chiếu hết trước khi đổi lượt
+    if (isCheckMate(!isWhiteTurn)) {
+      setState(() {
+        selectedPiece = null;
+        selectedRow = -1;
+        selectedCol = -1;
+        validMoves = [];
+      });
+
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text("CHECK MATE!"),
+            content: Text(isWhiteTurn ? "Red wins!" : "White wins!"),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  resetGame();
+                },
+                child: const Text("Play Again"),
+              ),
+            ],
+          ),
+        );
+      });
+
+      return;
+    }
+
+    // Kiểm tra hòa do bí nước
+    if (isStalemate(!isWhiteTurn)) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text("STALEMATE!"),
+            content: const Text("Game is a draw!"),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  resetGame();
+                },
+                child: const Text("Play Again"),
+              ),
+            ],
+          ),
+        );
+      });
+      return;
     }
 
     // Đổi lượt chơi
     isWhiteTurn = !isWhiteTurn;
 
-    // Reset lựa chọn
+    // Reset UI chọn quân
     setState(() {
       selectedPiece = null;
       selectedRow = -1;
       selectedCol = -1;
       validMoves = [];
     });
-    // Kiểm tra chiếu hết
-    if (isCheckMate(!isWhiteTurn)) {
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text("CHECK MATE!"),
-          content: Text(isWhiteTurn ? "White wins!" : "Black wins!"),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-                resetGame();
-              },
-              child: const Text("Play Again"),
-            ),
-          ],
-        ),
-      );
+
+    // Kiểm tra hòa do không đủ lực
+    if (isInsufficientMaterial()) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text("DRAW!"),
+            content: const Text("Draw due to insufficient material."),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  resetGame();
+                },
+                child: const Text("Play Again"),
+              ),
+            ],
+          ),
+        );
+      });
     }
   }
 
@@ -486,27 +645,127 @@ class _GameboardState extends State<Gameboard> {
 
 //Hết cờ
   bool isCheckMate(bool isWhiteKing) {
-    //Nếu vua k bị chiếu, đó k phải chiếu tướng hết cờ
+    // 1. Nếu vua không bị chiếu, không phải checkmate
     if (!isKingInCheck(isWhiteKing)) {
       return false;
     }
-    //Nếu vua bị chiếu mà vẫn còn nước đi đó k phải chiếu tướng hết cờ
-    for (int i = 0; i < 8; i++) {
-      for (int j = 0; j < 8; j++) {
-        //Bỏ qua ô trống và quân cờ khác màu
-        if (board[i][j] == null || board[i][j]!.isWhite != isWhiteKing) {
-          continue;
-        }
-        List<List<int>> pieceValidMoves =
-            calculateRealValidMoves(i, j, board[i][j], true);
-        //Nếu còn bất kì lượt đi hợp lệ nào, đó k phải hết cờ
-        if (pieceValidMoves.isNotEmpty) {
-          return false;
+
+    // 2. Duyệt tất cả quân cờ của bên đang bị chiếu
+    for (int row = 0; row < 8; row++) {
+      for (int col = 0; col < 8; col++) {
+        ChessPiece? piece = board[row][col];
+        if (piece == null || piece.isWhite != isWhiteKing) continue;
+
+        // 3. Lấy tất cả nước đi thực sự an toàn
+        List<List<int>> moves = calculateRealValidMoves(row, col, piece, true);
+        if (moves.isNotEmpty) {
+          return false; // Có ít nhất 1 nước để thoát chiếu → chưa checkmate
         }
       }
     }
-    //Nếu vua bị chiếu mà hết nước đi thì hết cờ
+
+    // 4. Không có nước nào để thoát chiếu → checkmate
     return true;
+  }
+
+//Hàm thế bí
+  bool isStalemate(bool isWhiteTurn) {
+    // Nếu vua không bị chiếu
+    if (isKingInCheck(isWhiteTurn)) return false;
+
+    // Duyệt tất cả quân cờ của bên hiện tại
+    for (int row = 0; row < 8; row++) {
+      for (int col = 0; col < 8; col++) {
+        ChessPiece? piece = board[row][col];
+        if (piece == null || piece.isWhite != isWhiteTurn) continue;
+
+        List<List<int>> moves = calculateRealValidMoves(row, col, piece, true);
+        if (moves.isNotEmpty) {
+          return false; // Còn nước đi → không phải bí thế
+        }
+      }
+    }
+
+    // Không có nước đi hợp lệ và không bị chiếu → bí thế (hoà)
+    return true;
+  }
+
+//Hàm không đủ sức end game
+  bool isInsufficientMaterial() {
+    List<ChessPiece> remainingPieces = [];
+
+    for (var row in board) {
+      for (var piece in row) {
+        if (piece != null) {
+          remainingPieces.add(piece);
+        }
+      }
+    }
+
+    // Nếu chỉ còn 2 vua → hoà
+    if (remainingPieces.length == 2) {
+      return true;
+    }
+
+    // Nếu chỉ còn vua và 1 quân mã hoặc tượng (một bên)
+    if (remainingPieces.length == 3) {
+      return remainingPieces.any((p) =>
+          p.type == ChessPieceType.knight || p.type == ChessPieceType.bishop);
+    }
+
+    // Nếu chỉ còn vua + tượng cùng màu vs vua + tượng cùng màu
+    if (remainingPieces.length == 4) {
+      List<ChessPiece> bishops = remainingPieces
+          .where((p) => p.type == ChessPieceType.bishop)
+          .toList();
+      if (bishops.length == 2) {
+        // Lấy màu ô của 2 tượng để so sánh
+        List<String> bishopColors = [];
+        for (int row = 0; row < 8; row++) {
+          for (int col = 0; col < 8; col++) {
+            var piece = board[row][col];
+            if (piece != null && piece.type == ChessPieceType.bishop) {
+              String color = ((row + col) % 2 == 0) ? "light" : "dark";
+              bishopColors.add(color);
+            }
+          }
+        }
+        return bishopColors.length == 2 && bishopColors[0] == bishopColors[1];
+      }
+    }
+
+    return false;
+  }
+
+//Hàm phong tốt
+  void promotePawn(int row, int col, ChessPieceType newType) {
+    setState(() {
+      bool isWhite = board[row][col]!.isWhite;
+      String imagePath = getImagePath(newType, isWhite);
+
+      board[row][col] = ChessPiece(
+        type: newType,
+        isWhite: isWhite,
+        imagePath: imagePath,
+      );
+    });
+  }
+
+  String getImagePath(ChessPieceType type, bool isWhite) {
+    switch (type) {
+      case ChessPieceType.queen:
+        return 'assets/images/queen.png';
+      case ChessPieceType.rook:
+        return 'assets/images/rook.png';
+      case ChessPieceType.bishop:
+        return 'assets/images/bishop.png';
+      case ChessPieceType.knight:
+        return 'assets/images/knight.png';
+      case ChessPieceType.pawn:
+        return 'assets/images/pawn.png';
+      case ChessPieceType.king:
+        return 'assets/images/king.png';
+    }
   }
 
 //Ván mới
