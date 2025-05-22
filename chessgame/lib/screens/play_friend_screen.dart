@@ -8,7 +8,7 @@ class PlayFriendScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Play with Friend')),
-      body: const Gameboard(),
+      body: const Gameboard(vsAI: false),
     );
   }
 }

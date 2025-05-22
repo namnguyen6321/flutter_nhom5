@@ -3,10 +3,11 @@ import 'package:my_app/component/piece.dart';
 import 'package:my_app/component/square.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/method/helper.dart';
+import 'package:my_app/method/move.dart';
 
 class Gameboard extends StatefulWidget {
-  const Gameboard({super.key});
-
+  final bool vsAI;
+  const Gameboard({Key? key, required this.vsAI}) : super(key: key);
   @override
   State<Gameboard> createState() => _GameboardState();
 }
@@ -391,7 +392,6 @@ class _GameboardState extends State<Gameboard> {
         blackPiecesTaken.add(capturedPiece);
       }
     }
-
     // Di chuyển quân cờ
     board[newRow][newCol] = selectedPiece;
     board[selectedRow][selectedCol] = null;
@@ -481,10 +481,8 @@ class _GameboardState extends State<Gameboard> {
         });
       }
     }
-
     // Kiểm tra chiếu
     checkStatus = isKingInCheck(!isWhiteTurn);
-
     // Kiểm tra chiếu hết trước khi đổi lượt
     if (isCheckMate(!isWhiteTurn)) {
       setState(() {
@@ -515,7 +513,6 @@ class _GameboardState extends State<Gameboard> {
 
       return;
     }
-
     // Kiểm tra hòa do bí nước
     if (isStalemate(!isWhiteTurn)) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -538,10 +535,21 @@ class _GameboardState extends State<Gameboard> {
       });
       return;
     }
-
     // Đổi lượt chơi
     isWhiteTurn = !isWhiteTurn;
+    if (widget.vsAI && !isWhiteTurn) {
+      Future.delayed(Duration(milliseconds: 300), () {
+        Move? aiMove = getBestMove(board, 2, false); // false = AI là đen
+        if (aiMove != null) {
+          // Gán selectedPiece tạm để dùng lại movePiece()
+          selectedPiece = board[aiMove.fromRow][aiMove.fromCol];
+          selectedRow = aiMove.fromRow;
+          selectedCol = aiMove.fromCol;
 
+          movePiece(aiMove.toRow, aiMove.toCol);
+        }
+      });
+    }
     // Reset UI chọn quân
     setState(() {
       selectedPiece = null;
@@ -549,7 +557,6 @@ class _GameboardState extends State<Gameboard> {
       selectedCol = -1;
       validMoves = [];
     });
-
     // Kiểm tra hòa do không đủ lực
     if (isInsufficientMaterial()) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -602,16 +609,11 @@ class _GameboardState extends State<Gameboard> {
       ChessPiece piece, int startRow, int startCol, int endRow, int endCol) {
     ChessPiece? originalDestinationPiece = board[endRow][endCol];
 
-    List<int>? originalKingPosition;
+    // Clone chính xác vị trí vua
+    List<int> originalKingPosition =
+        piece.isWhite ? [...whiteKingPosition] : [...blackKingPosition];
 
-    // Lưu vị trí vua hiện tại trước khi mô phỏng
-    if (piece.isWhite) {
-      originalKingPosition = whiteKingPosition;
-    } else {
-      originalKingPosition = blackKingPosition;
-    }
-
-    // Nếu là vua thì cập nhật vị trí vua
+    // Nếu là vua thì cập nhật vị trí vua tạm
     if (piece.type == ChessPieceType.king) {
       if (piece.isWhite) {
         whiteKingPosition = [endRow, endCol];
@@ -624,19 +626,19 @@ class _GameboardState extends State<Gameboard> {
     board[endRow][endCol] = piece;
     board[startRow][startCol] = null;
 
-    // Kiểm tra xem vua có bị chiếu không
+    // Kiểm tra chiếu
     bool kingInCheck = isKingInCheck(piece.isWhite);
 
-    // Khôi phục lại vị trí cũ
+    // Khôi phục lại bàn cờ
     board[startRow][startCol] = piece;
     board[endRow][endCol] = originalDestinationPiece;
 
     // Khôi phục lại vị trí vua
     if (piece.type == ChessPieceType.king) {
       if (piece.isWhite) {
-        whiteKingPosition = originalKingPosition!;
+        whiteKingPosition = originalKingPosition;
       } else {
-        blackKingPosition = originalKingPosition!;
+        blackKingPosition = originalKingPosition;
       }
     }
 
@@ -751,21 +753,133 @@ class _GameboardState extends State<Gameboard> {
     });
   }
 
-  String getImagePath(ChessPieceType type, bool isWhite) {
-    switch (type) {
-      case ChessPieceType.queen:
-        return 'assets/images/queen.png';
-      case ChessPieceType.rook:
-        return 'assets/images/rook.png';
-      case ChessPieceType.bishop:
-        return 'assets/images/bishop.png';
-      case ChessPieceType.knight:
-        return 'assets/images/knight.png';
-      case ChessPieceType.pawn:
-        return 'assets/images/pawn.png';
-      case ChessPieceType.king:
-        return 'assets/images/king.png';
+//Hàm đánh giá bàn cờ
+  int evaluateBoard(List<List<ChessPiece?>> board) {
+    int total = 0;
+    for (var row in board) {
+      for (var piece in row) {
+        if (piece != null) {
+          int value = 0;
+          switch (piece.type) {
+            case ChessPieceType.pawn:
+              value = 1;
+              break;
+            case ChessPieceType.knight:
+            case ChessPieceType.bishop:
+              value = 3;
+              break;
+            case ChessPieceType.rook:
+              value = 5;
+              break;
+            case ChessPieceType.queen:
+              value = 9;
+              break;
+            case ChessPieceType.king:
+              value = 1000; // hoặc 0 nếu bạn xử lý chiếu bí riêng
+              break;
+          }
+          total += piece.isWhite ? value : -value;
+        }
+      }
     }
+
+    return total;
+  }
+
+//Hàm danh sách nước đi hợp lệ
+  List<Move> generateAllValidMoves(
+      List<List<ChessPiece?>> board, bool isWhite) {
+    List<Move> moves = [];
+
+    for (int row = 0; row < 8; row++) {
+      for (int col = 0; col < 8; col++) {
+        ChessPiece? piece = board[row][col];
+        if (piece != null && piece.isWhite == isWhite) {
+          List<List<int>> validMoves =
+              calculateRealValidMoves(row, col, piece, true);
+
+          for (var move in validMoves) {
+            moves.add(Move(row, col, move[0], move[1]));
+          }
+        }
+      }
+    }
+
+    return moves;
+  }
+
+//Hàm sao chép bàn cờ
+  List<List<ChessPiece?>> cloneBoard(List<List<ChessPiece?>> board) {
+    return List.generate(8, (row) {
+      return List.generate(8, (col) {
+        final piece = board[row][col];
+        if (piece != null) {
+          return ChessPiece(
+            type: piece.type,
+            isWhite: piece.isWhite,
+            imagePath: piece.imagePath, // hoặc null nếu không cần ảnh
+          );
+        }
+        return null;
+      });
+    });
+  }
+
+//Hàm tạo nước đi cho AI
+  void makeMove(List<List<ChessPiece?>> board, Move move) {
+    ChessPiece? piece = board[move.fromRow][move.fromCol];
+    board[move.toRow][move.toCol] = piece;
+    board[move.fromRow][move.fromCol] = null;
+    // Có thể thêm logic nhập thành, phong hậu... nếu cần
+  }
+
+//Hàm lấy nước đi tốt nhất
+  Move? getBestMove(List<List<ChessPiece?>> board, int depth, bool isWhiteAI) {
+    List<Move> allMoves = generateAllValidMoves(board, isWhiteAI);
+    Move? bestMove;
+    int bestScore = isWhiteAI ? -99999 : 99999;
+
+    for (Move move in allMoves) {
+      List<List<ChessPiece?>> newBoard = cloneBoard(board);
+      makeMove(newBoard, move);
+
+      int score = minimax(newBoard, depth - 1, !isWhiteAI);
+
+      if (isWhiteAI && score > bestScore) {
+        bestScore = score;
+        bestMove = move;
+      } else if (!isWhiteAI && score < bestScore) {
+        bestScore = score;
+        bestMove = move;
+      }
+    }
+
+    return bestMove;
+  }
+
+// Hàm chính minimax
+  int minimax(
+      List<List<ChessPiece?>> board, int depth, bool isMaximizingPlayer) {
+    if (depth == 0) {
+      return evaluateBoard(board);
+    }
+
+    List<Move> allMoves = generateAllValidMoves(board, isMaximizingPlayer);
+    int bestScore = isMaximizingPlayer ? -99999 : 99999;
+
+    for (Move move in allMoves) {
+      List<List<ChessPiece?>> newBoard = cloneBoard(board);
+      makeMove(newBoard, move); // thử đi
+
+      int score = minimax(newBoard, depth - 1, !isMaximizingPlayer);
+      if (isMaximizingPlayer) {
+        bestScore = score > bestScore ? score : bestScore;
+      } else {
+        bestScore = score < bestScore ? score : bestScore;
+      }
+    }
+
+    return bestScore;
   }
 
 //Ván mới
@@ -785,6 +899,7 @@ class _GameboardState extends State<Gameboard> {
     });
   }
 
+//Giao diện bàn cờ
   @override
   Widget build(BuildContext context) {
     return Scaffold(

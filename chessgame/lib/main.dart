@@ -27,7 +27,6 @@ class ChessGameApp extends StatelessWidget {
         '/learn': (context) => LearnScreen(),
         '/home': (context) => HomeScreen(),
         '/profile': (context) => ProfileScreen(),
-        '/game': (context) => Gameboard(),
       },
       debugShowCheckedModeBanner: false,
     );
