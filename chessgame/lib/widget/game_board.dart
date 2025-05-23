@@ -755,35 +755,59 @@ class _GameboardState extends State<Gameboard> {
 
 //Hàm đánh giá bàn cờ
   int evaluateBoard(List<List<ChessPiece?>> board) {
-    int total = 0;
-    for (var row in board) {
-      for (var piece in row) {
+    int score = 0;
+    for (int row = 0; row < 8; row++) {
+      for (int col = 0; col < 8; col++) {
+        final piece = board[row][col];
         if (piece != null) {
-          int value = 0;
-          switch (piece.type) {
-            case ChessPieceType.pawn:
-              value = 1;
-              break;
-            case ChessPieceType.knight:
-            case ChessPieceType.bishop:
-              value = 3;
-              break;
-            case ChessPieceType.rook:
-              value = 5;
-              break;
-            case ChessPieceType.queen:
-              value = 9;
-              break;
-            case ChessPieceType.king:
-              value = 1000; // hoặc 0 nếu bạn xử lý chiếu bí riêng
-              break;
+          int pieceScore = getPieceValue(piece);
+
+          // Ưu tiên tốt kiểm soát trung tâm
+          if (piece.type == ChessPieceType.pawn &&
+              (row == 3 || row == 4) &&
+              (col == 3 || col == 4)) {
+            pieceScore += 10;
           }
-          total += piece.isWhite ? value : -value;
+
+          // Ưu tiên phát triển mã và tượng
+          if ((piece.type == ChessPieceType.knight ||
+                  piece.type == ChessPieceType.bishop) &&
+              (piece.isWhite && row <= 5 || !piece.isWhite && row >= 2)) {
+            pieceScore += 8;
+          }
+
+          // Ưu tiên nhập thành (vua đã rời ô E)
+          if (piece.type == ChessPieceType.king &&
+              ((piece.isWhite && col != 4 && row == 7) ||
+                  (!piece.isWhite && col != 4 && row == 0))) {
+            pieceScore += 12;
+          }
+
+          score += piece.isWhite ? pieceScore : -pieceScore;
         }
       }
     }
+    return score;
+  }
 
-    return total;
+//Hàm đánh giá giá trị quân cờ
+  int getPieceValue(ChessPiece piece) {
+    switch (piece.type) {
+      case ChessPieceType.pawn:
+        return 100;
+      case ChessPieceType.knight:
+        return 320;
+      case ChessPieceType.bishop:
+        return 330;
+      case ChessPieceType.rook:
+        return 500;
+      case ChessPieceType.queen:
+        return 900;
+      case ChessPieceType.king:
+        return 20000; // Giá trị cực lớn vì mất vua là thua
+      default:
+        return 0;
+    }
   }
 
 //Hàm danh sách nước đi hợp lệ
