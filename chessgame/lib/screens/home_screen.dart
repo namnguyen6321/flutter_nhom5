@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/screens/home_content.dart';
+import 'package:my_app/screens/login_screen.dart';
 import 'package:my_app/screens/profile_screen.dart';
 import 'package:my_app/screens/about_screen.dart';
 import 'package:my_app/screens/settings_creen.dart';
@@ -15,6 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
+    LoginScreen(),
     HomeContent(),
     ProfileScreen(),
     SettingsScreen(),

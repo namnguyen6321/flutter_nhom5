@@ -6,24 +6,21 @@ plugins {
 }
 
 android {
-    namespace = "com.example.my_app"
+    namespace = "com.example.my_app" // Đây là package name của bạn
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11 // Đã thay đổi thành Java 11
+        targetCompatibility = JavaVersion.VERSION_11 // Đã thay đổi thành Java 11
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8
+        jvmTarget = JavaVersion.VERSION_11.toString() // Đã thay đổi thành Java 11
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.example.my_app"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
+        applicationId = "com.example.my_app" // Đây là Application ID của bạn
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
@@ -32,8 +29,6 @@ android {
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig = signingConfigs.debug
         }
     }
@@ -42,3 +37,6 @@ android {
 flutter {
     source = "../.."
 }
+
+// Thêm dòng này ở cuối file để áp dụng plugin Google Services
+apply plugin: 'com.google.gms.google-services'

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/screens/about_screen.dart';
 import 'package:my_app/screens/learn_screen.dart';
+import 'package:my_app/screens/login_screen.dart';
 import 'package:my_app/screens/play_ai_screen.dart';
 import 'package:my_app/screens/play_friend_screen.dart';
 import 'package:my_app/screens/profile_screen.dart';
@@ -27,6 +28,7 @@ class ChessGameApp extends StatelessWidget {
         '/learn': (context) => LearnScreen(),
         '/home': (context) => HomeScreen(),
         '/profile': (context) => ProfileScreen(),
+        '/login': (context) => LoginScreen(),
       },
       debugShowCheckedModeBanner: false,
     );

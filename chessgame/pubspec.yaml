@@ -35,6 +35,15 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
 
+  # Firebase Core: Bắt buộc cho tất cả các dịch vụ Firebase
+  firebase_core: ^2.27.0 # Kiểm tra phiên bản mới nhất trên pub.dev
+
+  # Firebase Authentication: Để quản lý đăng nhập, đăng ký, đăng xuất
+  firebase_auth: ^4.17.9 # Kiểm tra phiên bản mới nhất trên pub.dev
+
+  # Cloud Firestore: Để lưu trữ dữ liệu người dùng (profile)
+  cloud_firestore: ^4.15.9 # Kiểm tra phiên bản mới nhất trên pub.dev
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

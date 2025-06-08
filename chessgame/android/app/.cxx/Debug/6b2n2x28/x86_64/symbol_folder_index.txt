@@ -1,0 +1,1 @@
+C:\dev\flutter_nhom5\chessgame\build\app\intermediates\cxx\Debug\6b2n2x28\obj\x86_64
