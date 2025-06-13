@@ -5,13 +5,15 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('My Profile'),
         centerTitle: true,
-        backgroundColor: Colors.deepPurple,
-        foregroundColor: Colors.white,
-        elevation: 0,
+        backgroundColor: theme.colorScheme.primary,
+        foregroundColor: theme.colorScheme.onPrimary,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
@@ -24,39 +26,52 @@ class ProfileScreen extends StatelessWidget {
                   backgroundImage: AssetImage('assets/avatar.png'),
                 ),
                 const SizedBox(height: 12),
-                const Text(
+                Text(
                   'Nguyen Dinh Nam',
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  style: theme.textTheme.headlineSmall
+                      ?.copyWith(fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'nguyendinhnam@gmai.com',
-                  style: TextStyle(color: Colors.grey),
+                  'nguyendinhnam@gmail.com',
+                  style: theme.textTheme.bodyMedium
+                      ?.copyWith(color: theme.hintColor),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'Phone: 0123 456 789',
+                  style: theme.textTheme.bodyMedium,
+                ),
+                Text(
+                  'Address: 123 Flutter St, VN',
+                  style: theme.textTheme.bodyMedium,
                 ),
               ],
             ),
             const SizedBox(height: 30),
-
             _buildProfileOption(
+              context,
               icon: Icons.edit,
               title: 'Edit Profile',
               onTap: () {
-                // chuyen trang chinh sua
+                // Navigator.push(...);
               },
             ),
             const SizedBox(height: 12),
             _buildProfileOption(
+              context,
               icon: Icons.help_outline,
               title: 'Help & Support',
               onTap: () {},
             ),
             const SizedBox(height: 12),
             _buildProfileOption(
+              context,
               icon: Icons.logout,
               title: 'Log Out',
               iconColor: Colors.red,
               onTap: () {
-                // chua lam dang nhap dang xuat
+                // logout function
               },
             ),
           ],
@@ -65,39 +80,42 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildProfileOption({
+  Widget _buildProfileOption(
+    BuildContext context, {
     required IconData icon,
     required String title,
     required VoidCallback onTap,
-    Color iconColor = Colors.deepPurple,
+    Color? iconColor,
   }) {
+    final theme = Theme.of(context);
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(12),
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
         decoration: BoxDecoration(
-          color: Colors.grey[100],
+          color: theme.cardColor,
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.15),
-              blurRadius: 6,
-              offset: const Offset(0, 4),
-            ),
+            if (theme.brightness == Brightness.light)
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.15),
+                blurRadius: 6,
+                offset: const Offset(0, 4),
+              ),
           ],
         ),
         child: Row(
           children: [
-            Icon(icon, color: iconColor),
+            Icon(icon, color: iconColor ?? theme.colorScheme.primary),
             const SizedBox(width: 16),
             Expanded(
               child: Text(
                 title,
-                style: const TextStyle(fontSize: 16),
+                style: theme.textTheme.bodyLarge,
               ),
             ),
-            const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
+            Icon(Icons.arrow_forward_ios, size: 16, color: theme.hintColor),
           ],
         ),
       ),

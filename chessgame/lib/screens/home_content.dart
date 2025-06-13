@@ -10,39 +10,39 @@ class HomeContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(24.0),
         child: Column(
           children: [
             _buildMenuItem(
               context,
               title: 'Play with AI',
-              color: Colors.deepPurple,
-              icon: Icons.smart_toy,
+              colors: [Color(0xFF00C9FF), Color(0xFF92FE9D)],
+              icon: Icons.smart_toy_rounded,
               onTap: () => Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const PlayAIScreen()),
+                MaterialPageRoute(builder: (_) => const PlayAIScreen()),
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 26),
             _buildMenuItem(
               context,
               title: 'Play with Friend',
-              color: Colors.deepPurple[400]!,
-              icon: Icons.people,
+              colors: [Color(0xFFFF6E7F), Color(0xFFFFB88C)],
+              icon: Icons.people_alt_rounded,
               onTap: () => Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const PlayFriendScreen()),
+                MaterialPageRoute(builder: (_) => const PlayFriendScreen()),
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 26),
             _buildMenuItem(
               context,
               title: 'Learn Chess',
-              color: Colors.deepPurple[200]!,
-              icon: Icons.school,
+              colors: [Color(0xFF8E2DE2), Color(0xFF4A00E0)],
+              icon: Icons.school_rounded,
               onTap: () => Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const LearnScreen()),
+                MaterialPageRoute(builder: (_) => const LearnScreen()),
               ),
             ),
           ],
@@ -51,38 +51,62 @@ class HomeContent extends StatelessWidget {
     );
   }
 
-  Widget _buildMenuItem(BuildContext context,
-      {required String title,
-      required Color color,
-      required IconData icon,
-      required VoidCallback onTap}) {
+  Widget _buildMenuItem(
+    BuildContext context, {
+    required String title,
+    required List<Color> colors,
+    required IconData icon,
+    required VoidCallback onTap,
+  }) {
     return InkWell(
+      borderRadius: BorderRadius.circular(24),
       onTap: onTap,
-      borderRadius: BorderRadius.circular(16),
-      child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        elevation: 6,
-        color: color,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+      child: Ink(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: colors,
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(24),
+          boxShadow: [
+            BoxShadow(
+              color: colors.last.withOpacity(0.3),
+              offset: const Offset(0, 8),
+              blurRadius: 14,
+            ),
+          ],
+        ),
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
           child: Row(
             children: [
-              CircleAvatar(
-                backgroundColor: Colors.white,
-                child: Icon(icon, color: color),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.2),
+                  shape: BoxShape.circle,
+                ),
+                padding: const EdgeInsets.all(14),
+                child: Icon(
+                  icon,
+                  size: 30,
+                  color: Colors.white,
+                ),
               ),
-              const SizedBox(width: 16),
+              const SizedBox(width: 20),
               Expanded(
                 child: Text(
                   title,
                   style: const TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
+                    fontSize: 22,
                     fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    letterSpacing: 1,
                   ),
                 ),
               ),
-              const Icon(Icons.arrow_forward_ios, color: Colors.white),
+              const Icon(Icons.arrow_forward_ios_rounded,
+                  color: Colors.white, size: 20),
             ],
           ),
         ),

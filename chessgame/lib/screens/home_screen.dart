@@ -5,7 +5,14 @@ import 'package:my_app/screens/about_screen.dart';
 import 'package:my_app/screens/settings_creen.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final bool isDarkMode;
+  final VoidCallback onToggleTheme;
+
+  const HomeScreen({
+    super.key,
+    required this.isDarkMode,
+    required this.onToggleTheme,
+  });
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -13,14 +20,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
-
-  final List<Widget> _pages = [
-    HomeContent(),
-    ProfileScreen(),
-    SettingsScreen(),
-    AboutScreen(),
-];
-
 
   void _onItemTapped(int index) {
     setState(() {
@@ -30,6 +29,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final List<Widget> _pages = [
+      const HomeContent(),
+      const ProfileScreen(),
+      SettingsScreen(
+        isDarkMode: widget.isDarkMode,
+        onToggleTheme: widget.onToggleTheme,
+      ),
+      const AboutScreen(),
+    ];
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Chess Game'),
@@ -45,7 +54,8 @@ class _HomeScreenState extends State<HomeScreen> {
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.settings), label: 'Settings'),
           BottomNavigationBarItem(icon: Icon(Icons.info), label: 'About'),
         ],
       ),
