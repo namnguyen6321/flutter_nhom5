@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class EditProfileScreen extends StatefulWidget {
   final String name;
@@ -7,6 +9,7 @@ class EditProfileScreen extends StatefulWidget {
   final String address;
   final String birthday;
   final String gender;
+  final String? avatarPath;
 
   const EditProfileScreen({
     super.key,
@@ -16,6 +19,7 @@ class EditProfileScreen extends StatefulWidget {
     required this.address,
     required this.birthday,
     required this.gender,
+    this.avatarPath,
   });
 
   @override
@@ -29,6 +33,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   late TextEditingController _addressCtrl;
   late TextEditingController _birthdayCtrl;
   late TextEditingController _genderCtrl;
+  String? _avatarPath;
 
   @override
   void initState() {
@@ -39,6 +44,17 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     _addressCtrl = TextEditingController(text: widget.address);
     _birthdayCtrl = TextEditingController(text: widget.birthday);
     _genderCtrl = TextEditingController(text: widget.gender);
+    _avatarPath = widget.avatarPath;
+  }
+
+  Future<void> _pickImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        _avatarPath = pickedFile.path;
+      });
+    }
   }
 
   void _saveProfile() {
@@ -49,17 +65,45 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       'address': _addressCtrl.text,
       'birthday': _birthdayCtrl.text,
       'gender': _genderCtrl.text,
+      'avatarPath': _avatarPath,
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final avatarImage = _avatarPath != null && _avatarPath!.isNotEmpty
+        ? FileImage(File(_avatarPath!))
+        : const AssetImage('assets/images/king.png');
+
     return Scaffold(
       appBar: AppBar(title: const Text('Edit Profile')),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: ListView(
           children: [
+            Center(
+              child: Stack(
+                children: [
+                  CircleAvatar(
+                    radius: 60,
+                    backgroundImage: avatarImage as ImageProvider,
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    right: 0,
+                    child: InkWell(
+                      onTap: _pickImage,
+                      child: const CircleAvatar(
+                        radius: 20,
+                        backgroundColor: Colors.black54,
+                        child: Icon(Icons.camera_alt, color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 20),
             TextField(
                 controller: _nameCtrl,
                 decoration: const InputDecoration(labelText: 'Name')),
